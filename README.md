@@ -1,1 +1,3 @@
-# repo_renderer
+# Whopper JR
+REPO 레주메북 렌더링 서버입니다.
+(프론트엔드에서 유지보수합니다)
