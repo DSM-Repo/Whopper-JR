@@ -13,8 +13,6 @@ const VIEWPORT = {
   height: 1191,
 };
 
-const url = `${process.env.SERVICE_URL}/${req.body.grade}`;
-
 const puppeteer = require("puppeteer");
 const { config } = require("dotenv");
 const express = require("express");
@@ -24,8 +22,8 @@ const fs = require("fs");
 
 // 서버 기본 설정
 config();
-app.use(cors());
 const app = express();
+app.use(cors());
 app.use(express.json({ extended: true }));
 
 app.post("/all", async (req, res) => {
@@ -40,6 +38,8 @@ app.post("/all", async (req, res) => {
       res.json({ message: "학년이 필요합니다" });
       return;
     }
+
+    const url = `${process.env.SERVICE_URL}/${req.body.grade}`;
 
     const browser = await puppeteer.launch({
       headless: "new",
@@ -92,14 +92,8 @@ app.post("/all", async (req, res) => {
 
     const form = new FormData();
 
-    form.append(
-      "pdf",
-      new File([fs.readFileSync("./resume.pdf")], "resume.pdf")
-    );
-    form.append(
-      "index",
-      new Blob([JSON.stringify(data)], { type: "application/json" })
-    );
+    form.append("pdf", new File([fs.readFileSync("./resume.pdf")], "resume.pdf"));
+    form.append("index", new Blob([JSON.stringify(data)], { type: "application/json" }));
 
     axios
       .post(`${process.env.API_URL}/library?grade=${req.body.grade}`, form, {
