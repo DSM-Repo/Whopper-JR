@@ -11,6 +11,6 @@
     "puppeteer": "^23.1.1"
   },
   "scripts": {
-    "start": "yarn nodemon ."
+    "start": "npx puppeteer browsers install chrome || yarn nodemon ."
   }
 }
